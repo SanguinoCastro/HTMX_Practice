@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Probando HTMX</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.6"
+      integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>HTMX</h1>
+
+    <button
+      hx-get="/api/hello"
+      hx-trigger="click"
+      hx-target="#hello"
+      hx-swap="innerHTML"
+    >
+      Click me!
+    </button>
+
+    <div id="hello"></div>
+
+    <div hx-get="/api/time" hx-trigger="every 1s" hx-swap="innerHTML">
+      Cargando...
+    </div>
+
+    <button
+      hx-patch="/api/likes"
+      hx-trigger="click"
+      hx-target="#id-likes"
+      hx-swap="innerHTML"
+    >
+      ❤️ Likes <span id="id-likes">0</span>
+    </button>
+
+    <input
+      type="text"
+      name="username"
+      placeholder="Search..."
+      hx-post="/api/search"
+      hx-trigger="keyup"
+      hx-target="#id-name"
+      hx-swap="innerHTML"
+    />
+
+    <ul id="id-name"></ul>
+
+    <style>
+      tr.htmx-swapping td {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+      }
+    </style>
+
+    <table class="table delete-row-example">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody
+        hx-confirm="Are you sure?"
+        hx-target="closest tr"
+        hx-swap="outerHTML swap:1s"
+      >
+        <tr>
+          <td>Angie MacDowell</td>
+          <td>angie@macdowell.org</td>
+          <td>Active</td>
+          <td>
+            <button class="btn btn-danger" hx-delete="/api/contact/1">
+              Delete
+            </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Angie MacDowell 2</td>
+          <td>angie@macdowell.org 2</td>
+          <td>Active</td>
+          <td>
+            <button class="btn btn-danger" hx-delete="/api/contact/2">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
